@@ -1,0 +1,31 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+create table users (
+	id UUID DEFAULT uuid_generate_v4(),
+	username VARCHAR(255) UNIQUE NOT NULL,
+	password VARCHAR(255) UNIQUE NOT NULL,
+	role VARCHAR(255) UNIQUE NOT NULL
+)
+
+-- Tabela de músicas
+CREATE TABLE musica (
+    id UUID DEFAULT uuid_generate_v4(),
+    titulo VARCHAR(255) UNIQUE NOT NULL,
+    artista VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Tabela de playlists
+CREATE TABLE playlist (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255),
+    criador VARCHAR(255) NOT NULL
+);
+
+-- Tabela de junção entre playlists e músicas
+CREATE TABLE playlist_musica (
+    playlist_id INTEGER REFERENCES playlist(id),
+    musica_id UUID REFERENCES musica(id),
+    PRIMARY KEY (playlist_id, musica_id)
+);
